@@ -1,0 +1,107 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(name='author', content='kama')
+    title= title
+    link(rel='apple-touch-icon-precomposed', sizes='57x57', href='/apple-touch-icon-57x57.png')
+    link(rel='apple-touch-icon-precomposed', sizes='114x114', href='/apple-touch-icon-114x114.png')
+    link(rel='apple-touch-icon-precomposed', sizes='72x72', href='/apple-touch-icon-72x72.png')
+    link(rel='apple-touch-icon-precomposed', sizes='144x144', href='/apple-touch-icon-144x144.png')
+    link(rel='apple-touch-icon-precomposed', sizes='120x120', href='/apple-touch-icon-120x120.png')
+    link(rel='apple-touch-icon-precomposed', sizes='152x152', href='/apple-touch-icon-152x152.png')
+    link(rel='icon', type='image/png', href='/favicon-32x32.png', sizes='32x32')
+    link(rel='icon', type='image/png', href='/favicon-16x16.png', sizes='16x16')
+    meta(name='application-name', content='kamaweb')
+    meta(name='msapplication-TileColor', content='#FFFFFF')
+    meta(name='msapplication-TileImage', content='/mstile-144x144.png')
+
+    // Font Awesome
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+    // Bootstrap core CSS
+    link(rel='stylesheet', href='/css/bootstrap.min.css')
+    // Material Design Bootstrap
+    link(rel='stylesheet', href='/css/mdb.min.css')
+    // Main site CSS
+    link(rel='stylesheet', href='/css/main.css')
+    block styles
+
+
+  body
+
+    nav.navbar.navbar-toggleable-sm.navbar-dark
+      .container
+        a.navbar-brand(href='/')
+          img.d-inline-block.align-top(src='/favicon-32x32.png', width='30', height='30', alt='')
+          |  kamaweb
+
+
+        button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+          span.navbar-toggler-icon
+        #navbarSupportedContent.collapse.navbar-collapse
+          ul.navbar-nav.mr-auto
+            li.nav-item(class=navActive === 'home' ? 'active' : undefined)
+              a.nav-link(href='/') Home
+            li.nav-item(class=navActive == 'log' ? 'active' : undefined)
+              a.nav-link(href='/log') Log
+            li.nav-item(class=navActive == 'memo' ? 'active' : undefined)
+              a.nav-link(href='/memo') Memo
+            li.nav-item(class=navActive == 'billing' ? 'active' : undefined)
+              a.nav-link(href='/billing') Billing
+
+
+
+            li.nav-item.dropdown
+              a#navbarDropdownMenuLink.nav-link.dropdown-toggle(href='/', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                | Links
+              .dropdown-menu(aria-labelledby='navbarDropdownMenuLink')
+                a.dropdown-item(href='/download') Downloads
+                a.dropdown-item(href='/lounge') The Lounge
+
+
+          ul.navbar-nav.ml-auto
+            li.nav-item.avatar.dropdown(class=navActive == 'account' ? 'active' : undefined)
+              a#navbarDropdownMenuAccount.nav-link.dropdown-toggle(href='/account', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                img.img-fluid.d-inline-block.rounded-circle(src=user.avatar ? `/avatar/${user.avatar}` : '/avatar/default.png', alt='', width='30', height='30')
+                |      #{user.name}
+              .dropdown-menu(aria-labelledby='navbarDropdownMenuAccount')
+                a.dropdown-item(href='/account')
+                  i.fa.fa-user.fa-fw(aria-hidden='true')
+                  |  Profile
+                a.dropdown-item(href='/account/settings')
+                  i.fa.fa-wrench.fa-fw(aria-hidden='true')
+                  |  Settings
+                .dropdown-divider
+                a.dropdown-item(href='/logout')
+                  i.fa.fa-sign-out.fa-fw(aria-hidden='true')
+                  |  Log Out
+            li.nav-item(data-toggle='tooltip', data-placement="bottom", title='Log Out')
+              a.nav-link(href='/logout')
+                i.fa.fa-sign-out
+
+    block content
+
+    .footer
+      .inner
+        hr
+        p.text-center
+          i.fa.fa-copyright(aria-hidden='true')
+          |  kamaweb 2018, by
+          a(href='/user/kama') @kama
+          | .
+
+    // JQuery
+    script(type='text/javascript', src='/js/jquery-3.2.1.min.js')
+    // Bootstrap tooltips
+    script(type='text/javascript', src='/js/tether.min.js')
+    // Bootstrap core JS
+    script(type='text/javascript', src='/js/bootstrap.min.js')
+    // MDB core JavaScript
+    script(type='text/javascript', src='/js/mdb.min.js')
+    // Moment
+    script(type='text/javascript', src='/js/moment.min.js')
+    script(type='text/javascript', src='/js/main.js')
+
+    block scripts

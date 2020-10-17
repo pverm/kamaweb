@@ -1,0 +1,63 @@
+extends layoutprelogin
+
+block content
+  .container(style='margin-top:40px')
+    .row
+      .col-sm-6.col-md-8.col-md-offset-2
+
+        if messages
+          for m in messages
+            .alert.alert-danger.alert-dismissable(role="alert")
+              button.close(type="button", data-dismiss="alert", aria-label="Close")
+                span(aria-hidden="true") &times;
+              | #{m}
+
+        .panel.panel-default
+          .panel-heading
+            strong  Sign up for #{hostname}
+          .panel-body
+            form(role='form', action='/signup', method='POST')
+              fieldset
+                .row
+                  .center-block
+                    img.profile-img(src='https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120', alt='')
+                .row
+                  .col-sm-12.col-md-12
+
+                    .form-group.required
+                      label.col-md-4.control-label.text-right Username
+                      .input-group.col-md-6
+                        span.input-group-addon
+                          i.glyphicon.glyphicon-user
+                        input.form-control(placeholder='Username', name='username', type='text', autofocus='')
+
+                    .form-group.required
+                      label.col-md-4.control-label.text-right Password
+                      .input-group.col-md-6
+                        span.input-group-addon
+                          i.glyphicon.glyphicon-lock
+                        input.form-control(placeholder='Password', name='password', type='password', value='')
+
+                    .form-group.required
+                      label.col-md-4.control-label.text-right Confirm Password
+                      .input-group.col-md-6
+                        span.input-group-addon
+                          i.glyphicon.glyphicon-lock
+                        input.form-control(placeholder='Confirm Password', name='password2', type='password', value='')
+
+                    .form-group
+                      label.col-md-4.control-label.text-right Email
+                      .input-group.col-md-6
+                        span.input-group-addon
+                          i.glyphicon.glyphicon-envelope
+                        input.form-control(placeholder='Email', name='email', type='email', value='')
+
+                    .form-group.col-md-6.col-md-offset-3
+                      .g-recaptcha(data-sitekey="6LcxPSEUAAAAAEXbwr66ovSQ9X2SumtkQslbRIw3")
+                    .form-group
+                      input.btn.btn-lg.btn-primary.btn-block(type='submit', value='Sign up')
+
+
+          .panel-footer
+            | Already have an account?
+            a(href='/login', onclick='')  Sign in here

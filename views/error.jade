@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  .container
+    .row
+      .col-md-12.z-depth-1.mt-3.p-4.white
+        if (error.status)
+          h2.h2-responsive
+            span.font-weight-bold.text-danger.mr-3= error.status
+            |  Oops! We encountered an error.
+        else
+          h2.h2-responsive Oops! We encountered an error.
+        hr
+        p= message
+    hr
+    .row
+      .col.white.z-depth-1.p-4
+        pre #{error.stack}

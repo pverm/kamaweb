@@ -1,0 +1,33 @@
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  width: 100%;
+}
+
+thead {
+  font-size: 20px;
+}
+
+table {
+  border-spacing: 20px 5px;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.memo_id {
+  width: 5%;
+  padding-right: 15px;
+  text-align: right;
+}
+
+.memo {
+  width: 60%;
+  word-wrap: break-word;
+}
+
+.memo_created {
+  width: 10%;
+}
+
+.memo_cleared {
+  width: 10%;
+}

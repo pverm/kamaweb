@@ -1,0 +1,85 @@
+{
+  "development": {
+    "secret": "mysecret",
+    "username": "",
+    "password": "",
+    "database": "",
+    "dialect": "postgres",
+    "options": {
+      "host": "127.0.0.1",
+      "dialect": "postgres",
+      "logging": false,
+      "timezone": "Europe/Berlin"
+    },
+    "redis": {
+      "host": "127.0.0.1",
+      "port": 6379,
+      "index": 0
+    },
+    "smtp": {
+      "service": "Zoho",
+      "user": "",
+      "password": ""
+    },
+    "admin": {
+      "name": "",
+      "email": ""
+    },
+    "recaptcha": "privkey"
+  },
+  "production": {
+    "secret": "mysecret",
+    "username": "",
+    "password": "",
+    "database": "",
+    "dialect": "postgres",
+    "options": {
+      "host": "127.0.0.1",
+      "dialect": "postgres",
+      "logging": false,
+      "timezone": "Europe/Berlin"
+    },
+    "redis": {
+      "host": "127.0.0.1",
+      "port": 6379,
+      "index": 0
+    },
+    "smtp": {
+      "service": "Zoho",
+      "user": "",
+      "password": ""
+    },
+    "admin": {
+      "name": "",
+      "email": ""
+    },
+    "recaptcha": "privkey"
+  },
+  "test": {
+    "username": "",
+    "password": "",
+    "database": "",
+    "dialect": "postgres",
+    "options": {
+      "host": "127.0.0.1",
+      "dialect": "postgres",
+      "logging": false,
+      "timezone": "Europe/Berlin"
+    },
+    "redis": {
+      "host": "127.0.0.1",
+      "port": 6379,
+      "index": 0
+    },
+    "smtp": {
+      "service": "Zoho",
+      "user": "",
+      "password": ""
+    },
+    "admin": {
+      "name": "",
+      "email": ""
+    },
+    "recaptcha": "privkey"
+  }
+}

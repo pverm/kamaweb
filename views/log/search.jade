@@ -1,0 +1,67 @@
+extends ../layout
+
+block styles
+  link(rel='stylesheet', href='/css/daterangepicker.css')
+
+block scripts
+  script(type='text/javascript', src='/js/log/search.js')
+  script(type='text/javascript', src='/js/log/daterangepicker.js')
+
+block content
+  .container
+
+    // BREADCRUMBS
+    .row.mt-3
+      .col-lg-6.container-log-breadcrumbs
+        ol.breadcrumb.z-depth-1
+          li.breadcrumb-item
+            a(href='/log') Servers
+          li.breadcrumb-item
+            a(href='/log/server/' + server.id)= server.name
+          li.breadcrumb-item
+            a(href='/log/channel/' + channel.id)= channel.name
+          li.breadcrumb-item.active search
+
+      .col-lg-6.container-log-menu
+        ul.list-inline.text-center.z-depth-1
+          li.list-inline-item(data-toggle='tooltip', title='Channel statistics')
+            a(href='/log/channel/' + channel.id + '/stats')
+              i.fa.fa-bar-chart.fa-lg.fa-fw(aria-hidden='true')
+          li.list-inline-item(data-toggle='tooltip', title='Search')
+            a(href='/log/channel/' + channel.id + '/search')
+              i.fa.fa-search.fa-lg.fa-fw(aria-hidden='true')
+    .row
+      .col.container-log.z-depth-1
+        form
+          .row.mb-2
+            .col-lg-6.mb-2
+              .md-form
+                //span.input-group-addon(style='width: 80px;')
+                  i.fa.fa-calendar
+                input#timerange.form-control(type='text')
+                label(for='timerange') Time range
+            .col-lg-6
+              .md-form
+                input#nick.form-control(type='text')
+                label(for='nick') nick
+          .row.mb-2
+            .col-md-9.mb-2
+              .md-form
+                //span.input-group-addon(style='width: 80px;') terms
+                input#searchtext.form-control(type='text')
+                label(for='searchtext') search terms
+            .col-md-3
+              button#btn-search.btn.btn-primary.btn-block(type='submit', onclick='return false;') Search
+        .row.mb-2
+          .col.text-center
+            span#searchInfo.badge.badge-default
+        .row
+          .col-md
+            table.table.table-condensed
+              thead
+                tr
+                th(style='width: 120px') Date
+                th(style='width: 100px')  Time
+                th(style='width: 150px')  Nick
+                th Message
+              tbody#result

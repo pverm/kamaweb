@@ -1,0 +1,46 @@
+extends layout
+
+block content
+
+  h1 MEMOS
+
+  if (uncleared.length > 0)
+    table(class="history")
+      thead
+        tr
+          td(class="memo_id") ID
+          td(class="memo") memo
+          td(class="memo_created") created
+          td(class="memo_cleared") cleared
+
+      each memo in uncleared
+        tr
+          td(class="memo_id")= memo.id
+          td(class="memo")= memo.text
+          td(class="memo_created")= helpers.formatDatetime(memo.createdAt)
+          td(class="memo_cleared")
+
+  else
+    p1 No memos stored for #{nick}.
+
+
+  h1 HISTORY
+
+  if (cleared.length > 0)
+    table(class="history")
+      thead
+        tr
+          td(class="memo_id") ID
+          td(class="memo") memo
+          td(class="memo_created") created
+          td(class="memo_cleared") cleared
+
+      each memo in cleared
+        tr
+          td(class="memo_id")= memo.id
+          td(class="memo")= memo.text
+          td(class="memo_created")= helpers.formatDatetime(memo.createdAt)
+          td(class="memo_cleared")= helpers.formatDatetime(memo.updatedAt)
+
+  else
+    p No cleared memos stored for #{nick}.

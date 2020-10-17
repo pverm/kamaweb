@@ -1,0 +1,4 @@
+Hello $PLACEHOLDER$!
+You are receiving this email because your email address has been used to sign up for kamaweb. Once your account is activated, you will receive a notification on this email.
+
+If you did not initiate this action, you may simply ignore this email.

@@ -1,0 +1,179 @@
+extends ../layout
+
+block styles
+  link(rel='stylesheet', href='/css/dataTables.bootstrap4.min.css')
+  link(rel='stylesheet', href='/css/daterangepicker.css')
+
+block scripts
+  script(type='text/javascript', src='/js/log/Chart.min.js')
+  script(type='text/javascript', src='/js/log/jquery.dataTables.min.js')
+  script(type='text/javascript', src='/js/log/dataTables.bootstrap4.min.js')
+  script(type='text/javascript', src='/js/log/daterangepicker.js')
+  script(type='text/javascript', src='/js/log/colors.js')
+  script(type='text/javascript', src='/js/log/stats.js')
+
+block content
+  .container
+
+    // BREADCRUMBS
+    .row.mt-3
+      .col-lg-6.container-log-breadcrumbs
+        ol.breadcrumb.z-depth-1
+          li.breadcrumb-item
+            a(href='/log') Servers
+          li.breadcrumb-item
+            a(href='/log/server/' + server.id)= server.name
+          li.breadcrumb-item
+            a(href='/log/channel/' + channel.id)= channel.name
+          li.breadcrumb-item.active stats
+
+      .col-lg-6.container-log-menu
+        ul.list-inline.text-center.z-depth-1
+          li.list-inline-item(data-toggle='tooltip', title='Channel statistics')
+            a(href='/log/channel/' + channel.id + '/stats')
+              i.fa.fa-bar-chart.fa-lg.fa-fw(aria-hidden='true')
+          li.list-inline-item(data-toggle='tooltip', title='Search')
+            a(href='/log/channel/' + channel.id + '/search')
+              i.fa.fa-search.fa-lg.fa-fw(aria-hidden='true')
+
+    // CHARTS
+    .row
+      .col.container-log.z-depth-1
+
+        h2.text-center Number of messages by nick
+        .row
+          .col-lg-6
+            .chart-container
+              canvas#chartMsgByNick
+
+          .col-lg-6
+            .table-container
+              table#tableMsgByNick.table.table-striped.table-bordered.table-hover(cellspacing='0', width='100%')
+                thead
+                  tr
+                    th Nick
+                    th Count
+
+
+        h2.text-center Number of messages by date
+        .row
+          .col
+            .row.mt-2.mb-2
+              .col-lg-4.mx-auto
+                .md-form
+                  i.fa.fa-calendar.prefix
+                  input#daterange.form-control(type='text')
+                  label(for='daterange')
+
+            .row
+              .col-lg-10.mx-auto
+                .chart-container#msgByDay
+                  canvas#chartMsgByDay
+
+
+        h2.text-center Number of messages by time of day
+        .row
+          .col-lg-10.mx-auto
+            .chart-container
+              canvas#chartMsgByTimeOfDay
+
+
+        h2.text-center Most posted sites
+        .row
+          .col-lg-6
+            .chart-container
+              canvas#chartMostPostedSites
+
+          .col-lg-6
+            .table-container
+              table#tableMostPostedSites.table.table-striped.table-bordered.table-hover(cellspacing='0', width='100%')
+                thead
+                  tr
+                    th Site
+                    th # of times posted
+
+
+        h2.text-center Number of messages containing searchtext by nick
+        .row
+          .col
+            .row
+              .col-lg-7.mx-auto
+                form#formSearchText.form-inline
+                  .md-form.mx-auto
+                    a#btnSearchText.btn.btn-primary(href='') Go!
+                    input#searchText.form-control(type='text', placeholder='Search for...')
+
+            .row
+              .col-lg-8.mx-auto
+                .table-container
+                  table#tableMsgContainingSearchText.table.table-striped.table-bordered.table-hover(cellspacing='0', width='100%')
+                    thead
+                      tr
+                        th Nick
+                        th Count
+                    tfoot
+                      tr
+                        th Total
+                        th
+
+
+        .row
+          .col-lg-6
+            h3.text-center Most active days
+            .table-container
+              table#tableMostActiveDays.table.table-striped.table-bordered.table-hover(cellspacing='0', width='100%')
+                thead
+                  tr
+                    th Date
+                    th # of messages
+                    th Loglink
+
+          .col-lg-6
+            h3.text-center Least active days
+            .table-container
+              table#tableLeastActiveDays.table.table-striped.table-bordered.table-hover(cellspacing='0', width='100%')
+                thead
+                  tr
+                    th Date
+                    th # of messages
+                    th Loglink
+
+
+        .row
+          .col-md-6
+            h3.text-center Number of kicks by nick
+            .chart-container
+              canvas#chartKicksByNick
+
+          .col-md-6
+            h3.text-center Number of emotes by nick
+            .chart-container
+              canvas#chartEmotesByNick
+
+
+        .row
+          .col-lg-6
+            h3.text-center Average message length by nick
+            .table-container
+              table#tableAvgMsgLenByNick.table.table-striped.table-bordered.table-hover(cellspacing='0', width='100%')
+                thead
+                  tr
+                    th Nick
+                    th Average message length
+                tfoot
+                  tr
+                    th Total average
+                    th
+
+          .col-lg-6
+            h3.text-center Number of distinct days when nick posted
+            .table-container
+              table#tableMostDistinctPostDays.table.table-striped.table-bordered.table-hover(cellspacing='0', width='100%')
+                thead
+                  tr
+                    th Nick
+                    th Post days
+                tfoot
+                  tr
+                    th Total logged days
+                    th

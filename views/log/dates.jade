@@ -1,0 +1,54 @@
+extends ../layout
+
+block styles
+  link(rel='stylesheet', href='/css/bootstrap-datepicker.min.css')
+
+block scripts
+  script(type='text/javascript', src='/js/log/URI.js')
+  script(type='text/javascript', src='/js/log/bootstrap-datepicker.min.js')
+  script(type='text/javascript', src='/js/log/datepicker-setup.js')
+
+block content
+  .container
+
+    // BREADCRUMBS
+    .row.mt-3
+      .col-lg-6.container-log-breadcrumbs
+        ol.breadcrumb.z-depth-1
+          li.breadcrumb-item
+            a(href='/log') Servers
+          li.breadcrumb-item
+            a(href='/log/server/' + server.id)= server.name
+          li.breadcrumb-item.active= channel.name
+
+      .col-lg-6.container-log-menu
+        ul.list-inline.text-center.z-depth-1
+          li.list-inline-item(data-toggle='tooltip', title='Calendar')
+            a#datepicker(href='#')
+              i.fa.fa-calendar.fa-lg.fa-fw(aria-hidden='true')
+          li.list-inline-item(data-toggle='tooltip', title='Channel statistics')
+            a(href='/log/channel/' + channel.id + '/stats')
+              i.fa.fa-bar-chart.fa-lg.fa-fw(aria-hidden='true')
+          li.list-inline-item(data-toggle='tooltip', title='Search')
+            a(href='/log/channel/' + channel.id + '/search')
+              i.fa.fa-search.fa-lg.fa-fw(aria-hidden='true')
+
+    // DATELIST
+    .row
+      .col.container-log.z-depth-1
+
+        .card.text-center.hoverable.m-3
+          a(href="/log/channel/" + channel.id + "/latest")
+            .card-block
+              p.card-text Latest
+        .card.text-center.hoverable.m-3
+          a(href="/log/channel/" + channel.id + "/today")
+            .card-block
+              p.card-text Today
+
+        each date in dates
+          .card.text-center.hoverable.m-3
+            - let formattedDate = helpers.formatDate(date.postedAtDate)
+            a(href="/log/channel/" + channel.id + "/date/" + formattedDate)
+              .card-block
+                p.card-text= formattedDate

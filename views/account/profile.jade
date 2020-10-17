@@ -1,0 +1,55 @@
+extends ../layout
+extends layout-account
+
+block profile-content
+  h4.profile-content-head Account information
+  .profile-content-block
+    .profile-info
+      span.profile-info-subject Name:
+      span.profile-info-item= user.name
+    .profile-info
+      span.profile-info-subject Account class:
+      span.profile-info-item= className
+    .profile-info
+      span.profile-info-subject Email:
+      span.profile-info-item= user.email
+    .profile-info
+      span.profile-info-subject Last Login:
+      span.profile-info-item= helpers.dateFormat(user.lastLogin)
+    .profile-info
+      span.profile-info-subject Account created:
+      span.profile-info-item= helpers.dateFormat(user.createdAt)
+
+  h4.profile-content-head Session info
+  .profile-content-block
+    .profile-info
+      span.profile-info-subject IP:
+      span.profile-info-item= connectionInfo.ip
+    .profile-info
+      span.profile-info-subject Host:
+      span.profile-info-item= connectionInfo.host
+    .profile-info
+      span.profile-info-subject Connection cookie:
+      span.profile-info-item= connectionInfo.cookies['connect.sid']
+    .profile-info
+      span.profile-info-subject Access time:
+      span.profile-info-item= helpers.dateFormat(new Date())
+
+  h4.profile-content-head IRC Link
+  .profile-content-block
+    if user.linked
+      .profile-info
+        span.profile-info-subject Status:
+        span.profile-info-item Linked
+      .profile-info
+        span.profile-info-subject Linked nick:
+        span.profile-info-item= user.linkedNick
+      .profile-info
+        span.profile-info-subject Linked Server:
+        span.profile-info-item= user.linkedServerName
+    else
+      .profile-info
+        span.profile-info-subject Status:
+        span.profile-info-item Unlinked
+    
+  

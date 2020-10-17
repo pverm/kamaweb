@@ -1,0 +1,138 @@
+extends ../layout
+extends layout-account
+
+block styles
+  link(rel='stylesheet', href='/css/croppie.css')
+  link(rel='stylesheet', href='/css/sweetalert.css')
+  
+block scripts
+  script(src='/js/account/croppie.min.js')
+  script(src='/js/account/sweetalert.min.js')
+  script(src='/js/account/avatarupload.js')
+
+block profile-content
+
+  // ACCOUNT LINK
+  h4.profile-content-head Account link
+  .profile-content-block
+
+    .flash-messages
+      if messages
+        for m in messages.link.error
+          .alert.alert-danger.alert-dismissable(role="alert")
+            button.close(type="button", data-dismiss="alert", aria-label="Close")
+              span(aria-hidden="true") &times;
+            | #{m}
+        for m in messages.link.success
+          .alert.alert-success.alert-dismissable(role="alert")
+            button.close(type="button", data-dismiss="alert", aria-label="Close")
+              span(aria-hidden="true") &times;
+            | #{m}
+
+    if !user.linked
+      .profile-info
+        .profile-info-subject Status:
+        .profile-info-item Unlinked
+      .profile-info
+        .profile-info-subject Link Password:
+        .profile-info-item= (user.linkPass) ? user.linkPass : '–'
+      .profile-info
+        .profile-info-subject Valid until:
+        .profile-info-item= (user.linkPass) ? helpers.dateFormat(user.linkPassValidUntil) : '–'
+      
+      form(role='form', action='settings/link', method='GET')
+        button.btn.btn-primary.btn-blue-grey.mx-auto(type='submit') Generate Password
+      hr
+      
+      h5 Instructions to create link to irc nick:
+      ul
+        li Generate a link password. Generated passwords are valid for 1 hour
+        li Send the following message to kamabot from the nick you want to link:
+          br
+          i /msg kamabot .link #{user.name} #{(user.linkPass) ? user.linkPass : 'linkpassword'}
+
+    else
+      .row
+        .col-md-3
+          strong Status:
+        .col-md-9 Linked
+      .row
+        .col-md-3 
+          strong Linked nick:
+        .col-md-9= user.linkedNick
+      .row
+        .col-md-3 
+          strong Linked server:
+        .col-md-9= user.linkedServerName
+      .row.mt-2
+      form(role='form', action='settings/unlink', method='GET')
+        button.btn.btn-primary.btn-blue-grey.mx-auto(type='submit') Unlink
+
+
+
+  // CHANGE ACCOUNT INFORMATION
+  h4.profile-content-head Change account information
+  .profile-content-block
+    .flash-messages
+      if messages
+        for m in messages.account.error
+          .alert.alert-danger.alert-dismissable(role="alert")
+            button.close(type="button", data-dismiss="alert", aria-label="Close")
+              span(aria-hidden="true") &times;
+            | #{m}
+        for m in messages.account.success
+          .alert.alert-success.alert-dismissable(role="alert")
+            button.close(type="button", data-dismiss="alert", aria-label="Close")
+              span(aria-hidden="true") &times;
+            | #{m}
+    
+    form(role='form', action='settings/update', method='POST')
+      .row
+        .col-md-12
+          .md-form.form-group.form-sm
+            i.fa.fa-envelope.prefix
+            input#formEmail.form-control.validate(type='email', name='email')
+            label(for='formEmail', data-error='wrong', data-success='right') Type your new email
+      .row.mt-1
+        .col-lg-6
+          .md-form.form-group.form-sm
+            i.fa.fa-lock.prefix
+            input#formPassword.form-control(type='password', name='password')
+            label(for='formPassword') Type your new password
+        .col-lg-6
+          .md-form.form-group.form-sm
+            i.fa.fa-lock.prefix
+            input#formPasswordConfirm.form-control(type='password', name='passwordConfirm')
+            label(for='formPasswordConfirm') Confirm your new password
+      .row
+        .col-md-12
+          .md-form.form-group
+            button.btn.btn-primary.btn-blue-grey(type='submit') Update
+
+
+
+  // CHANGE PROFILE AVATAR
+  h4.profile-content-head Change profile avatar
+  .profile-content-block
+    .flash-messages
+      if messages
+        for m in messages.avatar.error
+          .alert.alert-danger.alert-dismissable(role="alert")
+            button.close(type="button", data-dismiss="alert", aria-label="Close")
+              span(aria-hidden="true") &times;
+            | #{m}
+        for m in messages.avatar.success
+          .alert.alert-success.alert-dismissable(role="alert")
+            button.close(type="button", data-dismiss="alert", aria-label="Close")
+              span(aria-hidden="true") &times;
+
+    .row
+      .col-lg-12#upload-cropper(style='display: none;')
+    .row
+      .col-md-12
+        label.btn.btn-primary.btn-blue-grey.btn-file.avatar-btn Browse
+          input#upload-btn(type="file", accept="image/*", style='display: none;')
+        button.btn.btn-primary.btn-blue-grey.avatar-btn#upload-cancel(type="button", style='display: none;') Cancel
+        button.btn.btn-primary.btn-blue-grey.avatar-btn#upload-result(type="button", style='display: none;') Save
+
+

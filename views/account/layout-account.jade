@@ -1,0 +1,33 @@
+extends ../layout
+
+block content
+  #page-wrapper
+    .container-fluid
+      .row
+        .col-lg-12
+          .container
+            .row.profile.mt-3
+              // PROFILE SIDEBAR
+              .col-md-4
+                .profile-sidebar.z-depth-1
+                  .profile-accountpic
+                    img.img-fluid.mx-auto.d-block(src=user.avatar ? `/avatar/${user.avatar}` : '/avatar/default.png', alt='')
+                  .profile-account
+                    .profile-account-name= user.name
+                    .profile-account-class= className
+                  .profile-account-menu
+                    ul.list-group.z-depth-0
+                      a.list-group-item(href='/account', class=(accountActive === 'profile') ? 'active' : undefined)
+                        i.fa.fa-user.fa-fw(aria-hidden='true')
+                        |  Overview
+                      a.list-group-item(href='/account/settings', class=(accountActive === 'settings') ? 'active' : undefined)
+                        i.fa.fa-wrench.fa-fw(aria-hidden='true')
+                        |  Settings
+                      a.list-group-item(href='#', class=(accountActive === 'tasks') ? 'active' : undefined)
+                        i.fa.fa-tasks.fa-fw(aria-hidden='true')
+                        |  Tasks
+
+              // PROFILE CONTENT
+              .col-md-8
+                .profile-content.z-depth-1
+                  block profile-content

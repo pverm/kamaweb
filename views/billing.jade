@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  .container
+    .row
+      .col.z-depth-1.text-center.p-3.white.mt-3
+        h1 Billing Information
+
+    hr
+    .row
+      .col.z-depth-1.text-center.p-5.white
+        each bill in bills
+          .card.text-center.hoverable.m-3
+            a(href="/files/billing/" + bill.fileName, target="_blank")
+              .card-block
+                - var display = "Invoice of " + bill.month
+                p.card-text= display

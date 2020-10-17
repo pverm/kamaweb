@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+<head>
+<title>Binaural beats generator</title>
+<script>
+var contextClass = (window.AudioContext ||
+  window.webkitAudioContext ||
+  window.mozAudioContext ||
+  window.oAudioContext ||
+  window.msAudioContext);
+if (contextClass) {
+  var context = new contextClass();
+  var merger = context.createChannelMerger(2);
+
+  // create sine wave for left speaker
+  var osc_left = context.createOscillator();
+  var gain_left = context.createGain();
+  osc_left.type = 'sine';
+  osc_left.connect(gain_left);
+  osc_left.start();
+
+  // create sine wave for right speaker
+  var osc_right = context.createOscillator();
+  var gain_right = context.createGain();
+  osc_right.type = 'sine';
+  osc_right.connect(gain_right);
+  osc_right.start();
+
+  // merge sine waves
+  gain_left.connect(merger,0,0);
+  gain_right.connect(merger,0,1);
+
+} else {
+  alert('Browser not supported.');
+}
+
+function setVolume() {
+  var vol = document.getElementById("vol").value;
+  document.getElementById("vol_display").innerHTML = vol + '%';
+  gain_left.gain.value = parseFloat(vol/100);
+  gain_right.gain.value = parseFloat(vol/100);
+}
+
+function valFreq(freq) {
+  var min = 200;
+  var max = 1000;
+  return (freq >= min && freq <= max);
+}
+
+function setFrequencies(inp) {
+  if (inp==="slider") {
+    freq_left = document.getElementById("freq_left").value;
+    freq_right = document.getElementById("freq_right").value;
+    document.getElementById("freq_left_text").value = freq_left;
+    document.getElementById("freq_right_text").value = freq_right;
+  } else if (inp==="button") {
+    freq_left = parseInt(document.getElementById("freq_left_text").value);
+    freq_right = parseInt(document.getElementById("freq_right_text").value);
+    if (isNaN(freq_left) || isNaN(freq_right) || !valFreq(freq_left) || !valFreq(freq_right)) {
+      alert('Enter a frequency between 200 and 1000 hz');
+      return setFrequencies('slider');
+    } else {
+      document.getElementById("freq_left").value = freq_left;
+      document.getElementById("freq_right").value = freq_right;
+    }
+  }
+  osc_left.frequency.value = freq_left;
+  osc_right.frequency.value = freq_right;
+}
+
+function stopSound() {
+  merger.disconnect();
+}
+
+function playSound() {
+  setVolume();
+  setFrequencies('button');
+  merger.connect(context.destination);
+}
+
+function scrollSlider(id, ev) {
+  ev.preventDefault();
+  var sliderElement = document.getElementById(id)
+  var sliderVal = parseInt(sliderElement.value);
+  var shiftmod = ev.shiftKey ? 1 : (id==='vol' ? 5 : 20);
+  sliderElement.value = sliderVal - ev.deltaY/Math.abs(ev.deltaY)*shiftmod;
+  sliderElement.onchange();
+}
+</script>
+<style>
+.slider { display: inline-block; }
+</style>
+</head>
+<body style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;">
+  <h1>Binaural beats - Introduction</h1>
+  
+  <div style="font-size: 20px;">
+    Binaural beats, or binaural tones, are auditory processing artifacts, or apparent sounds,
+    caused by specific physical stimuli. This effect was discovered in 1839 by Heinrich Wilhelm Dove
+    and earned greater public awareness in the late 20th century based on claims coming from the
+    alternative medicine community that binaural beats could help induce relaxation, meditation,
+    creativity and other desirable mental states. The effect on the brainwaves depends on the
+    difference in frequencies of each tone: for example, if 300 Hz was played in one ear and 310 in
+    the other, then the binaural beat would have a frequency of 10 Hz.<br><br>
+    The brain produces a phenomenon resulting in low-frequency pulsations in the amplitude and sound
+    localization of a perceived sound when two tones at slightly different frequencies are presented
+    separately, one to each of a subject's ears, using stereo headphones. A beating tone will be
+    perceived, as if the two tones mixed naturally, out of the brain. The frequencies of the tones
+    must be below 1,000 hertz for the beating to be noticeable. The difference between the two
+    frequencies must be small (less than or equal to 30 Hz) for the effect to occur; otherwise, the
+    two tones will be heard separately, and no beat will be perceived.<br><br>
+    Binaural beats are of interest to neurophysiologists investigating the sense of hearing.<br><br>
+    Binaural beats reportedly influence the brain in more subtle ways through the entrainment of
+    brainwaves and provide other health benefits such as control over pain.<br><br>
+  </div>
+  <p><i>Source: <a href="https://en.wikipedia.org/wiki/Binaural_beats">https://en.wikipedia.org/wiki/Binaural_beats</a></i></p>
+  <br>
+  <h2>Generate a binaural tone</h2>
+  <p style="font-size:80%"><i>Hold shift for precise scrolling</i></p>
+  <div class="slider" onwheel="scrollSlider('freq_left', event)">
+    <p>Frequency of sine wave on left speaker:</p>
+    <input type="range" id="freq_left" min="200" max="1000" value="600" onchange="setFrequencies('slider');">
+    <input type="text" id="freq_left_text" min="200" max="1000" value="600" size="4">
+    <button type="button" onclick="setFrequencies('button');">Set</button>
+  </div>
+  <br>
+  <div class="slider" onwheel="scrollSlider('freq_right', event)">
+    <p>Frequency of sine wave on right speaker:</p>
+    <input type="range" id="freq_right" min="200" max="1000" value="603" onchange="setFrequencies('slider');">
+    <input type="text" id="freq_right_text" min="200" max="1000" value="610" size="4">
+    <button type="button" onclick="setFrequencies('button');">Set</button>
+  </div>
+  <br>
+  <div class="slider" onwheel="scrollSlider('vol', event);">
+    <p>Adjust volume:</p>
+    <input type="range" id="vol" min="0" max="100" value="50" onchange="setVolume();">
+    <p style="display: inline" id="vol_display">50%</p>
+  </div>
+  <br>
+  <br>
+  <button type="button" onclick="playSound();">Play</button>
+  <button type="button" onclick="stopSound();">Stop</button>
+</body>
+</html>

@@ -1,0 +1,2 @@
+Hello $PLACEHOLDER$!
+Your account for kamaweb is activated and you are now able to sign in.

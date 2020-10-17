@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  .container
+
+    .row
+      .col
+        .jumbotron.site-title.mt-3
+          h1.display-4 Welcome to kamaweb, #{user.name}
+          hr.mb-2
+          blockquote.blockquote
+            p.mb-0= quote.quote
+            footer.blockquote-footer= quote.nick

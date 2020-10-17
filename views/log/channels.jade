@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+  .container
+
+    // BREADCRUMBS
+    .row.mt-3
+      .col.container-log-breadcrumbs
+        ol.breadcrumb.z-depth-1
+          li.breadcrumb-item
+            a(href='/log') Servers
+          li.breadcrumb-item.active= server.name
+
+    // CHANNELLIST
+    .row
+      .col.container-log.z-depth-1
+        if channels.length == 0
+          div.text-center.pt-2
+            h1 No messages found.
+        else
+          each channel in channels
+            .card.text-center.hoverable.m-3
+              a(href="/log/channel/" + channel.id)
+                .card-block
+                  p.card-text= channel.name

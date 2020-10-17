@@ -1,0 +1,124 @@
+extends ../layout
+
+block styles
+  link(rel='stylesheet', href='/css/bootstrap-datepicker.min.css')
+
+block scripts
+  script(type='text/javascript', src='/js/log/URI.js')
+  script(type='text/javascript', src='/js/log/color.js')
+  script(type='text/javascript', src='/js/log/log.js')
+  script(type='text/javascript', src='/js/log/elevator.min.js')
+  script(type='text/javascript', src='/js/log/bootstrap-datepicker.min.js')
+  script(type='text/javascript', src='/js/log/datepicker-setup.js')
+
+block content
+  .container
+
+    // BREADCRUMBS
+    .row.mt-3
+      .col-lg-6.container-log-breadcrumbs
+        ol.breadcrumb.z-depth-1
+          li.breadcrumb-item
+            a(href='/log') Servers
+          li.breadcrumb-item
+            a(href='/log/server/' + server.id)= server.name
+          li.breadcrumb-item
+            a(href='/log/channel/' + channel.id)= channel.name
+          li.breadcrumb-item.active= (date === null) ? 'latest' : date
+          - if (date === null) { date = helpers.formatDate(new Date()) }
+
+      .col-lg-6.container-log-menu
+        ul.list-inline.text-center.z-depth-1
+          - var yesterday = new Date(new Date(date) - (24 * 60 * 60 * 1000))
+          li.list-inline-item(data-toggle='tooltip', title=helpers.formatDate(yesterday))
+            a(href=`/log/channel/${channel.id}/date/${helpers.formatDate(yesterday)}`)
+              i.fa.fa-angle-double-left.fa-lg.fa-fw(aria-hidden='true')
+          - var tomorrow = new Date(new Date(date) - -(24 * 60 * 60 * 1000))
+          li.list-inline-item(data-toggle='tooltip', title=helpers.formatDate(tomorrow))
+            a(href=`/log/channel/${channel.id}/date/${helpers.formatDate(tomorrow)}`)
+              i.fa.fa-angle-double-right.fa-lg.fa-fw(aria-hidden='true')
+          li.list-inline-item(data-toggle='tooltip', title='Calendar')
+            a#datepicker(href='#')
+              i.fa.fa-calendar.fa-lg.fa-fw(aria-hidden='true')
+          li.list-inline-item(data-toggle='tooltip', title='Channel statistics')
+            a(href='/log/channel/' + channel.id + '/stats')
+              i.fa.fa-bar-chart.fa-lg.fa-fw(aria-hidden='true')
+          li.list-inline-item(data-toggle='tooltip', title='Search')
+            a(href='/log/channel/' + channel.id + '/search')
+              i.fa.fa-search.fa-lg.fa-fw(aria-hidden='true')
+
+    .row
+      .col.container-log.z-depth-1
+        if messages.length == 0
+          div.text-center.pt-2
+            h1 No messages found.
+        else
+            - var prevDate = date
+            each message in messages
+
+              if helpers.formatDate(prevDate) !== helpers.formatDate(message.postedAtDate)
+                .col.log-line.date-change= helpers.dateFormat(message.postedAtDate, 'fullDate')
+                - prevDate = message.postedAtDate
+
+              - var id = 'msg-' + message.id
+              .col.log-line.msg(id=id, class=(id == jump) ? 'active' : '')
+
+
+                span.log.log-link.hidden-sm-down
+                  a(href='?jump=msg-' + message.id)
+                    i.fa.fa-link.loglink
+                span.log.log-time= helpers.formatTime(message.postedAt) + ' '
+
+                case message.command
+                  when ('PRIVMSG')
+                    span.log.log-actor
+                      span(class=helpers.getNickColorClass(message.nick))= message.nick
+                    span.log.log-text= message.text
+
+                  when ('JOIN')
+                    span.log.log-actor
+                      i.fa.fa-sign-in.fa-fw
+                    span.log.log-text
+                      span(class=helpers.getNickColorClass(message.nick))= message.nick
+                      |  joined.
+
+                  when ('KICK')
+                    span.log.log-actor
+                      i.fa.fa-ban.fa-fw
+                    span.log.log-text
+                      span(class=helpers.getNickColorClass(message.nick))= message.nick
+                      |  kicked #{message.text}.
+
+                  when ('EMOTE')
+                    span.log.log-actor
+                      i.fa.fa-user-o.fa-fw
+                    span.log.log-text
+                      span(class=helpers.getNickColorClass(message.nick))= message.nick
+                      |  #{message.text}.
+
+                  when ('PART')
+                    span.log.log-actor
+                      i.fa.fa-sign-out.fa-fw.fa-flip-horizontal
+                    span.log.log-text
+                      span(class=helpers.getNickColorClass(message.nick))= message.nick
+                      |  parted.
+
+                  when ('TOPIC')
+                    span.log.log-actor
+                      i.fa.fa-bullhorn.fa-fw
+                    span.log.log-text
+                      span(class=helpers.getNickColorClass(message.nick))= message.nick
+                      |  changed topic to: #{message.text}.
+
+                  when ('QUIT')
+                    span.log.log-actor
+                      i.fa.fa-sign-out.fa-fw.fa-flip-horizontal
+                    span.log.log-text
+                      span(class=helpers.getNickColorClass(message.nick))= message.nick
+                      |  quit (#{message.text}).
+
+
+          .col.mx-auto.text-center.mt-4.mb-4.elevator
+            span.fa.fa-chevron-up(aria-hidden="true")
+            br
+            | Back to top
